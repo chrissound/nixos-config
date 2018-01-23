@@ -15,7 +15,7 @@
      konsole
      emacs
      firefox
-     qterminal
+     lxqt.qterminal
    ];
 
     nixpkgs.config.allowUnfree = true;
