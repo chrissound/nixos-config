@@ -11,14 +11,20 @@
       ./chris.nix
     ];
 
+    
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.support32Bit = true; 
+
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
+  boot.loader.grub.useOSProber = true;
   boot.loader.grub.version = 2;
-  # boot.loader.grub.efiSupport = true;
+  boot.loader.grub.efiSupport = true;
   # boot.loader.grub.efiInstallAsRemovable = true;
-  # boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";
   # Define on which hard drive you want to install Grub.
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  boot.loader.grub.device = "nodev"; # or "nodev" for efi only
+  boot.loader.systemd-boot.enable = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -28,6 +34,23 @@
     consoleKeyMap = "dvorak";
     defaultLocale = "en_US.UTF-8";
   };
+
+fonts = {
+		fontconfig = {
+			ultimate.enable = true;	# This enables fontconfig-ultimate settings for better font rendering
+			defaultFonts = {
+				monospace = ["Iosevka"];
+			};
+		};
+		enableFontDir = true;
+		enableGhostscriptFonts = true;
+		fonts = with pkgs; [
+			terminus_font
+				corefonts
+				font-droid
+				iosevka
+		];
+};
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -70,7 +93,22 @@
     };
 
     windowManager.default = "xmonad";
+
   };
+
+    services.redshift = {
+      enable = true;
+      latitude = "55";
+      longitude = "3";
+      temperature = {
+        day = 7500;
+        night = 3500;
+      };
+      brightness = {
+        day = "1.0";
+        night = "0.7";
+      };
+	};
 
   # Enable the KDE Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
@@ -85,9 +123,11 @@
   { isNormalUser = true;
     home = "/home/chris";
     description = "Alice Foobar";
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "docker"];
+    shell = pkgs.zsh;
   };
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "17.03";
+	virtualisation.docker.enable = true;
 }

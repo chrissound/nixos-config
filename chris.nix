@@ -2,20 +2,40 @@
 
 {
    environment.systemPackages = with pkgs; [
+     audacity
+     mpv
+
+     postgresql
+     docker
+     docker_compose
+     lm_sensors
+     acpi
+     feh
+     haskellPackages.stack
      wget
      git
      neovim
      tint2
      unzip
-     ranger
      enpass
-     rofi
      pavucontrol
      light
+
      konsole
      emacs
+
      firefox
      lxqt.qterminal
+     stdenv
+     gnumake
+     bash
+     htop
+
+     ispell
+     ripgrep
+     ranger
+     rofi
+     zsh
    ];
 
     nixpkgs.config.allowUnfree = true;

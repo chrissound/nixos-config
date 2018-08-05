@@ -13,7 +13,7 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/6b26104b-166d-457a-9746-7e1684115065";
+    { device = "/dev/disk/by-uuid/a09b5245-f0a0-45f0-8a45-db7d1c31e3d2";
       fsType = "ext4";
     };
 
@@ -22,3 +22,4 @@
   nix.maxJobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = "powersave";
 }
+
