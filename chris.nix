@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 
+let
+  xmonadChris = pkgs.callPackage ./xmonad/default.nix {};
+in
 {
    environment.systemPackages = with pkgs; [
      audacity
@@ -22,6 +25,7 @@
      light
 
      konsole
+     gnome3.gnome_terminal
      emacs
 
      firefox
@@ -36,6 +40,7 @@
      ranger
      rofi
      zsh
+     xmonadChris
    ];
 
     nixpkgs.config.allowUnfree = true;

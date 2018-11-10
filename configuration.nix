@@ -79,6 +79,7 @@ fonts = {
     synaptics = {
 	    enable = true;
     };
+    dpi = 240;
     enable = true;
     layout = "dvorak";
     xkbOptions = "eurosign:e";
