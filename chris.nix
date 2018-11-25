@@ -2,45 +2,70 @@
 
 let
   xmonadChris = pkgs.callPackage ./xmonad/default.nix {};
+  unstable = import <unstable> {
+    config = config.nixpkgs.config; 
+  };
 in
 {
    environment.systemPackages = with pkgs; [
+     #xorg.xrdb
+     #xsettingsd
+     gnome3.gnome-settings-daemon
+     volumeicon
+     iotop
+     gptfdisk
+     parted
+     # google-chrome
+     unstable.google-chrome
+     evince
+     acpi
+     ag
+     alacritty
      audacity
-     mpv
-
-     postgresql
+     bash
+     cabal-install
+     cabal2nix
+     dmidecode
      docker
      docker_compose
-     lm_sensors
-     acpi
-     feh
-     haskellPackages.stack
-     wget
-     git
-     neovim
-     tint2
-     unzip
-     enpass
-     pavucontrol
-     light
-
-     konsole
-     gnome3.gnome_terminal
      emacs
-
+     enpass
+     exa
+     feh
      firefox
-     lxqt.qterminal
-     stdenv
+     fzf
+     git
+     gitAndTools.diff-so-fancy
+     gnome3.gnome_terminal
      gnumake
-     bash
+     haskellPackages.greenclip
+     hexchat
      htop
-
+     irssi
      ispell
-     ripgrep
+     konsole
+     light
+     lm_sensors
+     lxqt.qterminal
+     mpv
+     neovim
+     nix-prefetch-git
+     pavucontrol
+     postgresql
+     pstree
      ranger
+     ripgrep
      rofi
+     stdenv
+     tint2
+     unstable.haskellPackages.ghcid
+     unstable.stack
+     unzip
+     paper-icon-theme
+     wget
+     xclip
+     xdotool
      zsh
-     xmonadChris
    ];
 
     nixpkgs.config.allowUnfree = true;
@@ -49,6 +74,8 @@ in
        enable = true;
        extensions = [
         "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
+        "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+        "kmcfomidfpdkfieipokbalgegidffkal"
        ];
     };
 }

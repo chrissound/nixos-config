@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./chris.nix
+      #./cursor.nix
     ];
 
     
@@ -20,11 +21,12 @@
   boot.loader.grub.useOSProber = true;
   boot.loader.grub.version = 2;
   boot.loader.grub.efiSupport = true;
-  # boot.loader.grub.efiInstallAsRemovable = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "nodev"; # or "nodev" for efi only
   boot.loader.systemd-boot.enable = true;
+  boot.extraModprobeConfig = "options nouveau noaccel=1 runpm=0 nofbaccel=1 modeset=1";
 
   networking.hostName = "nixos"; # Define your hostname.
   networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -73,13 +75,14 @@ fonts = {
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
+  services.emacs.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver = {
     synaptics = {
 	    enable = true;
     };
-    dpi = 240;
+    dpi = 172;
     enable = true;
     layout = "dvorak";
     xkbOptions = "eurosign:e";
