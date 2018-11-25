@@ -8,6 +8,8 @@ let
 in
 {
    environment.systemPackages = with pkgs; [
+     duplicity
+     tree
      #xorg.xrdb
      #xsettingsd
      gnome3.gnome-settings-daemon

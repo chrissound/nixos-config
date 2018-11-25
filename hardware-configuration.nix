@@ -15,6 +15,13 @@
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/e6e9c014-056d-46d5-97a8-8c755667e63d";
       fsType = "ext4";
+      options = [ "noatime" "nodiratime" "discard" ]; 
+    };
+
+  fileSystems."/home/chris/chrishomeold" =
+    { device = "/dev/disk/by-uuid/35375d90-1dc3-4709-9c42-49be406c9db6";
+      fsType = "ext4";
+      options = [ "noatime" "nodiratime" "discard" ]; 
     };
 
   swapDevices = [ ];
