@@ -9,22 +9,22 @@
     ];
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [ "kvm-amd" "coretemp" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/e6e9c014-056d-46d5-97a8-8c755667e63d";
       fsType = "ext4";
-      options = [ "noatime" "nodiratime" "discard" ]; 
     };
 
   fileSystems."/home/chris/chrishomeold" =
     { device = "/dev/disk/by-uuid/35375d90-1dc3-4709-9c42-49be406c9db6";
       fsType = "ext4";
-      options = [ "noatime" "nodiratime" "discard" ]; 
     };
 
-  swapDevices = [ ];
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/cf2385ba-949a-463b-9d18-76da154a5fbb"; }
+    ];
 
   nix.maxJobs = lib.mkDefault 4;
 }

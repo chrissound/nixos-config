@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./chris.nix
+      ./gh22652.nix
       #./cursor.nix
     ];
 
@@ -32,7 +33,7 @@
   networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   i18n = {
-    consoleFont = "Lat2-Terminus16";
+    consoleFont = "Lat2-Terminus32";
     consoleKeyMap = "dvorak";
     defaultLocale = "en_US.UTF-8";
   };
@@ -115,7 +116,7 @@ fonts = {
 	};
 
   # Enable the KDE Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
+  #services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.xserverArgs =
   [
     "-logfile" "/tmp/x.log"
