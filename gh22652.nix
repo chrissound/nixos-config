@@ -53,5 +53,5 @@ in
   ];
 
   services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.displayManager.lightdm.greeter.package = wrappedGtkGreeter;
+  #services.xserver.displayManager.lightdm.greeter.package = wrappedGtkGreeter;
 }

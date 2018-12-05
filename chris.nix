@@ -23,11 +23,13 @@ in
      #xorg.xrdb
      #xsettingsd
      acpi
+     kubernetes-helm
      ag
      alacritty
      audacity
      awscli
      bash
+     breeze-gtk
      cabal-install
      cabal2nix
      dmidecode
@@ -49,7 +51,10 @@ in
      gnumake
      google-cloud-sdk
      gptfdisk
+     haskellPackages.apply-refact
      haskellPackages.greenclip
+     haskellPackages.hindent
+     haskellPackages.hlint
      hexchat
      htop
      iotop

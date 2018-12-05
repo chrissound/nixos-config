@@ -9,13 +9,12 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./chris.nix
-      ./gh22652.nix
+      #./gh22652.nix
       #./cursor.nix
     ];
 
-    
   hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true; 
+  hardware.pulseaudio.support32Bit = true;
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -83,7 +82,7 @@ fonts = {
     synaptics = {
 	    enable = true;
     };
-    dpi = 172;
+    dpi = 148;
     enable = true;
     layout = "dvorak";
     xkbOptions = "eurosign:e";
@@ -98,6 +97,8 @@ fonts = {
     };
 
     windowManager.default = "xmonad";
+
+    libinput.middleEmulation = true;
 
   };
 
@@ -116,12 +117,13 @@ fonts = {
 	};
 
   # Enable the KDE Desktop Environment.
-  #services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.xserverArgs =
   [
     "-logfile" "/tmp/x.log"
   ];
-  # services.xserver.desktopManager.plasma5.enable = true;
+  #services.xserver.desktopManager.plasma5.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
 
   #Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.chris =
