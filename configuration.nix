@@ -4,6 +4,10 @@
 
 { config, pkgs, ... }:
 
+
+let 
+  hardware.pulseaudio.package = pkgs.pulseaudio.override { jackaudioSupport = true; };
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -65,7 +69,7 @@ fonts = {
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -129,8 +133,8 @@ fonts = {
   users.extraUsers.chris =
   { isNormalUser = true;
     home = "/home/chris";
-    description = "Alice Foobar";
-    extraGroups = [ "wheel" "networkmanager" "docker"];
+    description = "Chris Stryczynski";
+    extraGroups = [ "wheel" "networkmanager" "docker" "audio"];
     shell = pkgs.zsh;
   };
 
