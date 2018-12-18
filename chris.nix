@@ -16,8 +16,60 @@ let
   unstable = import <unstable> {
     config = config.nixpkgs.config; 
   };
+  devopsPkgs = with pkgs; [
+    awscli
+    docker_compose
+    kubectl
+    kubernetes-helm
+    google-cloud-sdk
+  ];
+  desktopPkgs = with pkgs; [
+    dolphin
+    firefox
+    gnome3.gnome-settings-daemon
+    gnome3.gnome_terminal
+    libreoffice
+    lxappearance
+    lxqt.qterminal
+    mpv
+    paper-icon-theme
+    pavucontrol
+    rofi
+    spotify
+    tint2
+    unstable.google-chrome
+    volumeicon
+    xbindkeys
+    konsole
+    enpass
+    evince
+  ];
+  musicProdPkgs = with pkgs; [
+    audacity
+    supercollider
+    qjackctl
+    unstable.jack2
+  ];
+  cliPkgs = with pkgs; [
+    tree
+    global
+    exa
+    fzf
+    ag
+    gitAndTools.diff-so-fancy
+    jq
+    ranger
+    shellcheck
+    stdenv
+    ripgrep
+    xclip
+    xdotool
+    zsh
+    bash
+  ];
 in
 {
+
    environment.systemPackages = with pkgs; [
      scrot
      maim
@@ -25,36 +77,21 @@ in
      sshpass
      ntfs3g
      # google-chrome
+     #libjack2
      #xorg.xrdb
      #xsettingsd
-     acpi
-     kubernetes-helm
-     ag
-     alacritty
-     audacity
-     awscli
-     bash
      breeze-gtk
      cabal-install
      cabal2nix
+     acpi
+     alacritty
      dmidecode
      docker
-     docker_compose
-     dolphin
      duplicity
      emacs
-     enpass
-     evince
-     exa
      feh
-     firefox
-     fzf
      git
-     gitAndTools.diff-so-fancy
-     gnome3.gnome-settings-daemon
-     gnome3.gnome_terminal
      gnumake
-     google-cloud-sdk
      gptfdisk
      haskellPackages.apply-refact
      haskellPackages.greenclip
@@ -67,41 +104,24 @@ in
      iotop
      irssi
      ispell
-     jq
-     konsole
-     kubectl
-     libreoffice
      light
      lm_sensors
-     lxappearance
-     lxqt.qterminal
      maim
-     mpv
      neovim
      nix-prefetch-git
-     paper-icon-theme
+     ntfs3g
      parted
-     pavucontrol
      postgresql
      pstree
-     ranger
-     ripgrep
-     rofi
-     spotify
-     stdenv
-     tint2
-     tree
-     unstable.google-chrome
      unstable.haskellPackages.ghcid
      unstable.stack
      unzip
-     volumeicon
      wget
-     xbindkeys
-     xclip
-     xdotool
-     zsh
-   ];
+   ]
+   ++ devopsPkgs
+   ++ desktopPkgs
+   ++ musicProdPkgs
+   ++ cliPkgs;
 
     nixpkgs.config.allowUnfree = true;
 
