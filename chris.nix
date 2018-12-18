@@ -17,111 +17,117 @@ let
     config = config.nixpkgs.config; 
   };
   devopsPkgs = with pkgs; [
+    acpi
     awscli
+    dmidecode
+    docker
     docker_compose
+    git
+    google-cloud-sdk
     kubectl
     kubernetes-helm
-    google-cloud-sdk
+  ];
+
+  desktopSystemPkgs = with pkgs; [
+    duplicity
+    gptfdisk
+    htop
+    iotop
+    irssi
+    ispell
+    light
+    lm_sensors
+    maim
+    nix-prefetch-git
+    ntfs3g
+    parted
   ];
   desktopPkgs = with pkgs; [
+    alacritty
     dolphin
+    emacs
+    enpass
+    evince
+    feh
     firefox
     gnome3.gnome-settings-daemon
     gnome3.gnome_terminal
+    gnumake
+    hexchat
+    konsole
     libreoffice
     lxappearance
     lxqt.qterminal
+    maim
     mpv
+    neovim
+    openvpn
     paper-icon-theme
     pavucontrol
     rofi
+    scrot
     spotify
+    sshpass
     tint2
     unstable.google-chrome
     volumeicon
     xbindkeys
-    konsole
-    enpass
-    evince
   ];
   musicProdPkgs = with pkgs; [
     audacity
-    supercollider
     qjackctl
+    supercollider
     unstable.jack2
   ];
   cliPkgs = with pkgs; [
-    tree
-    global
+    ag
+    bash
     exa
     fzf
-    ag
     gitAndTools.diff-so-fancy
+    global
     jq
+    postgresql
+    pstree
     ranger
+    ripgrep
     shellcheck
     stdenv
-    ripgrep
+    tree
+    unzip
+    wget
     xclip
     xdotool
     zsh
-    bash
+  ];
+  myHaskellPackages = with pkgs; [
+    cabal-install
+    cabal2nix
+    haskellPackages.apply-refact
+    haskellPackages.bhoogle
+    haskellPackages.greenclip
+    haskellPackages.hindent
+    haskellPackages.hlint
+    haskellPackages.hoogle
+    unstable.haskellPackages.ghcid
+    unstable.stack
   ];
 in
 {
 
    environment.systemPackages = with pkgs; [
-     scrot
-     maim
-     openvpn
-     sshpass
-     ntfs3g
      # google-chrome
      #libjack2
      #xorg.xrdb
      #xsettingsd
      breeze-gtk
-     cabal-install
-     cabal2nix
-     acpi
-     alacritty
-     dmidecode
-     docker
-     duplicity
-     emacs
-     feh
-     git
-     gnumake
-     gptfdisk
-     haskellPackages.apply-refact
-     haskellPackages.greenclip
-     haskellPackages.hindent
-     haskellPackages.hlint
-     haskellPackages.bhoogle
-     haskellPackages.hoogle
-     hexchat
-     htop
-     iotop
-     irssi
-     ispell
-     light
-     lm_sensors
-     maim
-     neovim
-     nix-prefetch-git
-     ntfs3g
-     parted
-     postgresql
-     pstree
-     unstable.haskellPackages.ghcid
-     unstable.stack
-     unzip
-     wget
    ]
    ++ devopsPkgs
    ++ desktopPkgs
+   ++ desktopSystemPkgs
    ++ musicProdPkgs
-   ++ cliPkgs;
+   ++ cliPkgs
+   ++ myHaskellPackages;
 
     nixpkgs.config.allowUnfree = true;
 
