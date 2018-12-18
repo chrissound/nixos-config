@@ -19,6 +19,11 @@ let
 in
 {
    environment.systemPackages = with pkgs; [
+     scrot
+     maim
+     openvpn
+     sshpass
+     ntfs3g
      # google-chrome
      #xorg.xrdb
      #xsettingsd
@@ -55,6 +60,8 @@ in
      haskellPackages.greenclip
      haskellPackages.hindent
      haskellPackages.hlint
+     haskellPackages.bhoogle
+     haskellPackages.hoogle
      hexchat
      htop
      iotop

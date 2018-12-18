@@ -12,9 +12,16 @@
       #./gh22652.nix
       #./cursor.nix
     ];
-
+    powerManagement = {
+    enable = true;
+    cpuFreqGovernor = "ondemand";
+    };
+systemd.services.systemd-udev-settle.serviceConfig.ExecStart = "${pkgs.coreutils}/bin/true";
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.support32Bit = true;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+
+	services.printing.enable = true;
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -30,6 +37,10 @@
 
   networking.hostName = "nixos"; # Define your hostname.
   networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.extraHosts =
+  ''
+  35.244.133.249 pp3-be.fnstaging.net
+  '';
 
   i18n = {
     consoleFont = "Lat2-Terminus32";
@@ -79,10 +90,10 @@ fonts = {
 
   # Enable the X11 windowing system.
   services.xserver = {
-    synaptics = {
-	    enable = true;
-    };
-    dpi = 148;
+    # synaptics = {
+	  #   enable = true;
+    # };
+    dpi = 128;
     enable = true;
     layout = "dvorak";
     xkbOptions = "eurosign:e";
@@ -98,6 +109,7 @@ fonts = {
 
     windowManager.default = "xmonad";
 
+    libinput.enable = true;
     libinput.middleEmulation = true;
 
   };
@@ -137,4 +149,5 @@ fonts = {
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "17.03";
 	virtualisation.docker.enable = true;
+  hardware.bluetooth.enable = true;
 }
