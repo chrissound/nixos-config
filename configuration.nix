@@ -5,9 +5,9 @@
 { config, pkgs, ... }:
 
 
-let 
-  hardware.pulseaudio.package = pkgs.pulseaudio.override { jackaudioSupport = true; };
-in
+# let 
+#   hardware.pulseaudio.package = pkgs.pulseaudioFull.override { jackaudioSupport = true; };
+# in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -20,7 +20,7 @@ in
     enable = true;
     cpuFreqGovernor = "ondemand";
     };
-systemd.services.systemd-udev-settle.serviceConfig.ExecStart = "${pkgs.coreutils}/bin/true";
+  systemd.services.systemd-udev-settle.serviceConfig.ExecStart = "${pkgs.coreutils}/bin/true";
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.support32Bit = true;
   hardware.pulseaudio.package = pkgs.pulseaudioFull;
@@ -44,6 +44,7 @@ systemd.services.systemd-udev-settle.serviceConfig.ExecStart = "${pkgs.coreutils
   networking.extraHosts =
   ''
   35.244.133.249 pp3-be.fnstaging.net
+  35.244.133.249 chrispp3-be.ddns.net
   '';
 
   i18n = {
@@ -154,4 +155,9 @@ fonts = {
   system.stateVersion = "17.03";
 	virtualisation.docker.enable = true;
   hardware.bluetooth.enable = true;
+
+  # hardware.pulseaudio.configFile = pkgs.writeText "default.pa" ''
+  # #load-module module-bluetooth-policy
+  # #load-module module-bluetooth-discover
+  # '';
 }

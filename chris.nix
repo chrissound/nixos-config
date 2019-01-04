@@ -11,6 +11,7 @@
 
 { config, pkgs, ... }:
 
+
 let
   xmonadChris = pkgs.callPackage ./xmonad/default.nix {};
   unstable = import <unstable> {
@@ -41,14 +42,20 @@ let
     nix-prefetch-git
     ntfs3g
     parted
+    bind
+    tcptrack
+    bmon
+    gwenview
   ];
   desktopPkgs = with pkgs; [
+    sox
     alacritty
     dolphin
     emacs
-    enpass
+    unstable.enpass
     evince
     feh
+    file
     firefox
     gnome3.gnome-settings-daemon
     gnome3.gnome_terminal
@@ -72,6 +79,7 @@ let
     unstable.google-chrome
     volumeicon
     xbindkeys
+    tldr
   ];
   musicProdPkgs = with pkgs; [
     audacity
@@ -109,6 +117,10 @@ let
     haskellPackages.hindent
     haskellPackages.hlint
     haskellPackages.hoogle
+    haskellPackages.hserv
+    unstable.haskellPackages.ghc-prof-flamegraph
+    #haskellPackages.taffyBar
+    #unstable.haskellPackages.steeloverseer
     unstable.haskellPackages.ghcid
     unstable.stack
   ];
@@ -116,6 +128,7 @@ in
 {
 
    environment.systemPackages = with pkgs; [
+     
      # google-chrome
      #libjack2
      #xorg.xrdb
