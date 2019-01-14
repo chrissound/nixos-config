@@ -10,7 +10,7 @@
 # };
 
 { config, pkgs, ... }:
-
+#{ config, ... }:
 
 let
   xmonadChris = pkgs.callPackage ./xmonad/default.nix {};
@@ -27,6 +27,7 @@ let
     google-cloud-sdk
     kubectl
     kubernetes-helm
+    openssl
   ];
 
   desktopSystemPkgs = with pkgs; [
@@ -126,7 +127,6 @@ let
   ];
 in
 {
-
    environment.systemPackages = with pkgs; [
      
      # google-chrome

@@ -4,7 +4,6 @@
 
 { config, pkgs, ... }:
 
-
 # let 
 #   hardware.pulseaudio.package = pkgs.pulseaudioFull.override { jackaudioSupport = true; };
 # in
@@ -77,6 +76,24 @@ fonts = {
    #$ nix-env -qaP | grep wget
    environment.systemPackages = with pkgs; [
    ];
+
+  nixpkgs.config.packageOverrides = pkgs: {
+      haskellPackages = pkgs.haskellPackages.override {
+        overrides = hsSelf: hsSuper: {
+          greenclip  = pkgs.haskell.lib.overrideCabal hsSuper.greenclip  (oa: {
+            version = "3.1.1";
+            sha256 = "1axh1q7kcvcnhn4rl704i4gcix5yn5v0sb3bdgjk4vgkd7fv8chw";
+            executablePkgconfigDepends = oa.executablePkgconfigDepends ++ [pkgs.xorg.libXdmcp];
+          });
+
+          wordexp  = pkgs.haskell.lib.overrideCabal hsSuper.wordexp  (oa: {
+            version = "0.2.2";
+            sha256 = "1mbcrq89jz0dcibw66w0jdy4f4bfpx4zwjfs98rm3jjgdikwdzb4";
+          });
+        };
+      };
+    };
+
 
   # List services that you want to enable:
 
@@ -160,4 +177,17 @@ fonts = {
   # #load-module module-bluetooth-policy
   # #load-module module-bluetooth-discover
   # '';
+
+  systemd.user.services = {
+    greenclip = {
+      description = "Greenclip: Simple clipboard manager to be integrated with rofi";
+      enable = true;
+      serviceConfig = {
+        Type      = "simple";
+        ExecStart = "${pkgs.haskellPackages.greenclip}/bin/greenclip daemon";
+        Restart   = "always";
+      };
+      wantedBy = [ "default.target" ];
+    };
+  };
 }
