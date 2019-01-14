@@ -110,6 +110,7 @@ in
      unstable.stack
      unzip
      wget
+     jmtpfs
    ]
    ++ devopsPkgs
    ++ desktopPkgs

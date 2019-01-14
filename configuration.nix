@@ -66,6 +66,11 @@ fonts = {
    environment.systemPackages = with pkgs; [
    ];
 
+   environment.interactiveShellInit = ''
+   if [[ "$VTE_VERSION" > 3405 ]]; then
+   source "${pkgs.gnome3.vte}/etc/profile.d/vte.sh"
+   fi
+   '';
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
