@@ -1,12 +1,8 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
-# let 
-#   hardware.pulseaudio.package = pkgs.pulseaudioFull.override { jackaudioSupport = true; };
-# in
+let 
+  hardware.pulseaudio.package = pkgs.pulseaudioFull.override { jackaudioSupport = true; };
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -42,9 +38,18 @@
   networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.extraHosts =
   ''
-  35.244.133.249 pp3-be.fnstaging.net
-  35.244.133.249 chrispp3-be.ddns.net
+  # 35.244.133.249 pp3-be.fnstaging.net
+  # 35.244.133.249 chrispp3-be.ddns.net
+  35.244.202.44 subzero.freshnation.com
+
+  # 116.203.70.99 trycatchchris.co.uk
+
+  192.168.39.185 raiden-api-ingress.local
+  192.168.39.185 subzero-ingress.local
+
   '';
+
+  security.sudo.wheelNeedsPassword = false;
 
   i18n = {
     consoleFont = "Lat2-Terminus32";
@@ -69,7 +74,6 @@ fonts = {
 		];
 };
 
-  # Set your time zone.
   time.timeZone = "Europe/London";
 
    #List packages installed in system profile. To search by name, run:
@@ -101,27 +105,21 @@ fonts = {
       };
 
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.teamviewer.enable = true;
 
-  # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPortRanges = [ { from = 80; to = 81; } ];
   # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
-  # Enable CUPS to print documents.
   # services.printing.enable = true;
   services.emacs.enable = true;
 
-  # Enable the X11 windowing system.
   services.xserver = {
     # synaptics = {
 	  #   enable = true;
     # };
-    dpi = 128;
+    dpi = 160;
     enable = true;
     layout = "dvorak";
     xkbOptions = "eurosign:e";
@@ -140,6 +138,10 @@ fonts = {
     libinput.enable = true;
     libinput.middleEmulation = true;
 
+    serverFlagsSection =
+      ''
+      Option "OffTime" "1"
+      '';
   };
 
     services.redshift = {
@@ -165,12 +167,11 @@ fonts = {
   #services.xserver.desktopManager.plasma5.enable = true;
   # services.xserver.displayManager.lightdm.enable = true;
 
-  #Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.chris =
   { isNormalUser = true;
     home = "/home/chris";
     description = "Chris Stryczynski";
-    extraGroups = [ "wheel" "networkmanager" "docker" "audio"];
+    extraGroups = [ "wheel" "networkmanager" "docker" "audio" "libvirtd"];
     shell = pkgs.zsh;
   };
 
@@ -178,11 +179,13 @@ fonts = {
   system.stateVersion = "17.03";
 	virtualisation.docker.enable = true;
   hardware.bluetooth.enable = true;
+  virtualisation.libvirtd.enable = true;
 
   # hardware.pulseaudio.configFile = pkgs.writeText "default.pa" ''
   # #load-module module-bluetooth-policy
   # #load-module module-bluetooth-discover
   # '';
+  programs.dconf.enable = true;
 
   systemd.user.services = {
     greenclip = {
@@ -195,5 +198,114 @@ fonts = {
       };
       wantedBy = [ "default.target" ];
     };
+    moscoviumOrange = {
+      enable = true;
+      description = "MoscoviumOrange terminal history";
+      serviceConfig = {
+        Type      = "simple";
+        ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p %h/.config/moscoviumOrange/pending/";
+        ExecStart = "%h/.local/bin/MoscoviumOrange --daemon";
+        Restart   = "always";
+        RestartSec   = 1;
+        StandardOutput="/tmp/fucker.log";
+      };
+      wantedBy = [ "default.target" ];
+    };
   };
+
+  ### BEGIN HERE
+ 
+  # services.grafana.enable = true;
+  # services.elasticsearch.enable = true;
+  # services.kibana.enable = true;
+  # services.logstash.enable = true;
+  # services.logstash.inputConfig = ''
+  #   # Read from journal
+  #   udp {
+  #     port => 25826
+  #     buffer_size => 1452
+  #     codec => collectd { }
+  #   }
+  #   file {
+  #     type => "text"
+  #     path => ["/tmp/wtfchris"]
+  #   }
+  # '';
+  # services.logstash.outputConfig = ''
+  #   stdout { }
+  #   if [collectd_type] =~ /.+/ {
+  #     elasticsearch {
+  #       index => "metrics-%{+xxxx.ww}"
+  #     }
+  #   }
+  # '';
+  # services.collectd.enable = true;
+  # services.collectd.extraConfig = ''
+  # LoadPlugin CPU
+  # LoadPlugin Memory
+  # LoadPlugin Interface
+  # LoadPlugin Memory
+  # LoadPlugin Network
+  # <Plugin "network">
+  # Server "127.0.0.1"
+  # </Plugin>
+
+  # '';
+
+ ### END HERE
+
+  nix = {
+    binaryCaches = [
+      "https://cache.nixos.org/"
+      "https://komposition.cachix.org"
+    ];
+    binaryCachePublicKeys = [
+      "komposition.cachix.org-1:nzWESzP0bEENshGnqQYN8+mic6JOxw2APw/AJAXhF3Y="
+    ];
+    trustedUsers = [ "root" "chris" ];
+  };
+
+  services.nextcloud = {
+    enable = true;
+    hostName = "_";
+    nginx.enable = true;
+    config = {
+      adminuser = "chrissy";
+      adminpassFile = "/etc/nixos/secrets/nextcloud_adminpass";
+      extraTrustedDomains = [
+      "192.168.0.6"
+      "10.0.2.2"
+      ];
+    };
+  };
+
+  # services.samba = {
+  #   enable = false;
+  #   securityType = "user";
+  #   extraConfig = ''
+  #     workgroup = WORKGROUP
+  #     server string = smbnix
+  #     netbios name = smbnix
+  #     hosts allow = 192.168.0  localhost 10.0.2
+  #     hosts deny = 0.0.0.0/0
+  #     guest account = nobody
+  #     wins support = yes
+  #     local master = yes
+  #     preferred master = yes
+  #   '';
+  #   shares = {
+  #     public = {
+  #       path = "/home/chris/mount/raid18t/chris/samba";
+  #       browseable = "yes";
+  #       "read only" = "no";
+  #       "guest ok" = "yes";
+  #       "create mask" = "0777";
+  #       "directory mask" = "0755";
+  #       "force user" = "chris";
+  #       "force group" = "users";
+  #       "valid users" = "chris, guest";
+  #     };
+  #   };
+  # };
+
 }

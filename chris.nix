@@ -18,70 +18,115 @@ let
     config = config.nixpkgs.config; 
   };
   devopsPkgs = with pkgs; [
+    # anydesk
+    teamviewer
+    tdesktop
     acpi
     awscli
     dmidecode
     docker
     docker_compose
-    git
     google-cloud-sdk
     kubectl
     kubernetes-helm
+    minikube
     openssl
+    virtmanager
+    gnome3.dconf
+    gnumake
   ];
 
-  desktopSystemPkgs = with pkgs; [
+  desktopSystemPkgsNetwork = with pkgs; [
+    git
+    bind
+    tcptrack
+    bmon
+    tshark
+    traceroute
+    smbclient
+  ];
+  desktopSystemPkgsStorage = with pkgs; [
     duplicity
+    gparted
     gptfdisk
-    htop
+    hdparm
     iotop
+    ntfs3g
+    parted
+    smartmontools
+    sysstat
+    e2fsprogs
+    ncdu
+    mdadm
+  ];
+  desktopSystemPkgs = with pkgs; [
+    jmtpfs
+	  xfce4-13.thunar
+    xfce4-13.tumbler
+    bc
+    ddccontrol
+    gnupg
+    gwenview
+    gxmessage
+    htop
     irssi
     ispell
     light
     lm_sensors
     maim
+    ncdu
     nix-prefetch-git
-    ntfs3g
-    parted
-    bind
-    tcptrack
-    bmon
-    gwenview
+    postgresql
+    qt5ct
+    wmctrl
+	  xorg.xgamma
+    openvpn
+  ] ++ desktopSystemPkgsStorage ++ desktopSystemPkgsNetwork;
+  desktopEnvironmentUiPkgs = with pkgs; [
+    gnome3.gnome-settings-daemon
+    paper-icon-theme
+    lxappearance
+    volumeicon
+    xbindkeys
+    breeze-gtk
+    xcompmgr
+    compton
+  ];
+  desktopMediaPkgs = with pkgs; [
+    imagemagickBig
+    pinta
+    gthumb
+    vlc
+    youtube-dl
+    feh
+    file
+    mpv
+    spotify
   ];
   desktopPkgs = with pkgs; [
-    sox
     alacritty
     dolphin
     emacs
-    unstable.enpass
+    neovim
     evince
-    feh
-    file
     firefox
-    gnome3.gnome-settings-daemon
     gnome3.gnome_terminal
-    gnumake
     hexchat
     konsole
     libreoffice
-    lxappearance
     lxqt.qterminal
-    mpv
-    neovim
-    openvpn
-    paper-icon-theme
     pavucontrol
     rofi
     scrot
-    spotify
-    sshpass
-    tint2
+    tor-browser-bundle-bin
+    thunderbird
+    unstable.enpass
     unstable.google-chrome
-    volumeicon
-    xbindkeys
-    tldr
-  ];
+    transmission
+    transmission-gtk
+  ] ++ desktopEnvironmentUiPkgs ++ desktopMediaPkgs;
   musicProdPkgs = with pkgs; [
+    sox
     audacity
     qjackctl
     supercollider
@@ -90,17 +135,23 @@ let
   cliPkgs = with pkgs; [
     ag
     bash
+    unstable.broot
+    # unstable.ruplacer
     exa
+    fd
     fzf
     gitAndTools.diff-so-fancy
     global
     jq
-    postgresql
     pstree
+    pv
     ranger
     ripgrep
     shellcheck
+    sshpass
     stdenv
+    tint2
+    tldr
     tree
     unzip
     wget
@@ -109,33 +160,28 @@ let
     zsh
   ];
   myHaskellPackages = with pkgs; [
-    cabal-install
     cabal2nix
+    cabal-install
     haskellPackages.apply-refact
     haskellPackages.bhoogle
     haskellPackages.greenclip
     haskellPackages.hindent
     haskellPackages.hlint
     haskellPackages.hoogle
+    haskellPackages.hpack
     haskellPackages.hserv
-    unstable.haskellPackages.ghc-prof-flamegraph
     #haskellPackages.taffyBar
-    #unstable.haskellPackages.steeloverseer
+    stack2nix
     unstable.haskellPackages.ghcid
+    unstable.haskellPackages.ghc-prof-flamegraph
+    # unstable.haskellPackages.hpack-convert
+    #unstable.haskellPackages.steeloverseer
     unstable.stack
   ];
 in
 {
-   environment.systemPackages = with pkgs; [
-     
-     # google-chrome
-     #libjack2
-     #xorg.xrdb
-     #xsettingsd
-     breeze-gtk
-     jmtpfs
-   ]
-   ++ devopsPkgs
+   environment.systemPackages = with pkgs;
+      devopsPkgs
    ++ desktopPkgs
    ++ desktopSystemPkgs
    ++ musicProdPkgs
@@ -150,6 +196,7 @@ in
         "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
         "kmcfomidfpdkfieipokbalgegidffkal"
+        "niloccemoadcdkdjlinkgdfekeahmflj" # pocket
        ];
     };
 }
