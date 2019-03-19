@@ -8,23 +8,43 @@
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/e6e9c014-056d-46d5-97a8-8c755667e63d";
       fsType = "ext4";
+      options = [ "noatime" "discard" ];
     };
 
   fileSystems."/home/chris/chrishomeold" =
     { device = "/dev/disk/by-uuid/35375d90-1dc3-4709-9c42-49be406c9db6";
       fsType = "ext4";
+      options = [ "noatime" "discard" ];
     };
 
   fileSystems."/boot/efi" =
     { device = "/dev/disk/by-uuid/AA07-20AD";
       fsType = "vfat";
+    };
+
+  fileSystems."/home/chris/mount/raid18t" =
+    { device = "/dev/disk/by-uuid/deb25ea3-6f4a-4d9a-9028-0fc653b48732";
+      fsType = "ext4";
+      options = [ "noatime" ];
+    };
+
+  fileSystems."/home/chris/mount/ssd2" =
+    { device = "/dev/disk/by-uuid/d79124de-8547-4e17-b21a-0eac2d9699d7";
+      fsType = "xfs";
+      options = [ "noatime" "discard" ];
+    };
+
+  fileSystems."/home/chris/mount/nvmp2" =
+    { device = "/dev/disk/by-uuid/ecacdbae-1af5-45d9-8bdb-6cc8a0e1d233";
+      fsType = "ext4";
+      options = [ "noatime" "discard" ];
     };
 
   swapDevices =

@@ -20,7 +20,6 @@ let
   devopsPkgs = with pkgs; [
     # anydesk
     teamviewer
-    tdesktop
     acpi
     awscli
     dmidecode
@@ -46,6 +45,7 @@ let
     smbclient
   ];
   desktopSystemPkgsStorage = with pkgs; [
+    jmtpfs
     duplicity
     gparted
     gptfdisk
@@ -58,31 +58,30 @@ let
     e2fsprogs
     ncdu
     mdadm
+    borgbackup
   ];
   desktopSystemPkgs = with pkgs; [
-    jmtpfs
-	  xfce4-13.thunar
-    xfce4-13.tumbler
     bc
     ddccontrol
     gnupg
     gwenview
-    gxmessage
     htop
     irssi
     ispell
     light
     lm_sensors
     maim
-    ncdu
     nix-prefetch-git
     postgresql
     qt5ct
     wmctrl
 	  xorg.xgamma
     openvpn
+    inotify-tools
+    multitail
   ] ++ desktopSystemPkgsStorage ++ desktopSystemPkgsNetwork;
   desktopEnvironmentUiPkgs = with pkgs; [
+    gxmessage
     gnome3.gnome-settings-daemon
     paper-icon-theme
     lxappearance
@@ -91,8 +90,11 @@ let
     breeze-gtk
     xcompmgr
     compton
+    tint2
   ];
   desktopMediaPkgs = with pkgs; [
+    xfce4-13.thunar
+    xfce4-13.tumbler
     imagemagickBig
     pinta
     gthumb
@@ -102,6 +104,7 @@ let
     file
     mpv
     spotify
+    simplescreenrecorder
   ];
   desktopPkgs = with pkgs; [
     alacritty
@@ -124,6 +127,8 @@ let
     unstable.google-chrome
     transmission
     transmission-gtk
+    signal-desktop
+    tdesktop # telegram
   ] ++ desktopEnvironmentUiPkgs ++ desktopMediaPkgs;
   musicProdPkgs = with pkgs; [
     sox
@@ -140,6 +145,7 @@ let
     exa
     fd
     fzf
+    fpp
     gitAndTools.diff-so-fancy
     global
     jq
@@ -150,7 +156,7 @@ let
     shellcheck
     sshpass
     stdenv
-    tint2
+    tmux
     tldr
     tree
     unzip
@@ -170,6 +176,7 @@ let
     haskellPackages.hoogle
     haskellPackages.hpack
     haskellPackages.hserv
+    # unstable.haskellPackages.vgrep
     #haskellPackages.taffyBar
     stack2nix
     unstable.haskellPackages.ghcid
