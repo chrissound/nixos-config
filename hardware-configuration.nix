@@ -4,13 +4,27 @@
 { config, lib, pkgs, ... }:
 
 {
+  # nixpkgs.config = {
+  #   packageOverrides = super: let self = super.pkgs; in {
+  #     linuxPackages_latest = unstable.linuxPackages_latest;
+  #   };
+  # };
+
   imports =
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     ];
 
+  hardware.enableRedistributableFirmware = true;
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [ "kvm-amd" "fuse"];
+   boot.kernelParams = [
+   # "radeon.si_support=0"
+   # "amdgpu.si_support=1"
+   # "amdgpu.dc=1"
+   ];
   boot.extraModulePackages = [ ];
+  #boot.kernelPackages = pkgs.linuxPackages_4_19;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/e6e9c014-056d-46d5-97a8-8c755667e63d";
@@ -35,11 +49,11 @@
       options = [ "noatime" ];
     };
 
-  fileSystems."/home/chris/mount/ssd2" =
-    { device = "/dev/disk/by-uuid/d79124de-8547-4e17-b21a-0eac2d9699d7";
-      fsType = "xfs";
-      options = [ "noatime" "discard" ];
-    };
+  #fileSystems."/home/chris/mount/ssd2" =
+  #  { device = "/dev/disk/by-uuid/d79124de-8547-4e17-b21a-0eac2d9699d7";
+  #    fsType = "xfs";
+  #    options = [ "noatime" "discard" ];
+  #  };
 
   fileSystems."/home/chris/mount/nvmp2" =
     { device = "/dev/disk/by-uuid/ecacdbae-1af5-45d9-8bdb-6cc8a0e1d233";
