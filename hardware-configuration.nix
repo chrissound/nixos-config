@@ -4,12 +4,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  # nixpkgs.config = {
-  #   packageOverrides = super: let self = super.pkgs; in {
-  #     linuxPackages_latest = unstable.linuxPackages_latest;
-  #   };
-  # };
-
   imports =
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     ];
@@ -17,14 +11,13 @@
   hardware.enableRedistributableFirmware = true;
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
   boot.kernelModules = [ "kvm-amd" "fuse"];
-   boot.kernelParams = [
-   # "radeon.si_support=0"
-   # "amdgpu.si_support=1"
-   # "amdgpu.dc=1"
-   ];
+  boot.kernelParams = [
+    # "radeon.si_support=0"
+    # "amdgpu.si_support=1"
+    # "amdgpu.dc=1"
+  ];
   boot.extraModulePackages = [ ];
-  #boot.kernelPackages = pkgs.linuxPackages_4_19;
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
+
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/e6e9c014-056d-46d5-97a8-8c755667e63d";
@@ -33,9 +26,14 @@
     };
 
   fileSystems."/home/chris/chrishomeold" =
-    { device = "/dev/disk/by-uuid/35375d90-1dc3-4709-9c42-49be406c9db6";
-      fsType = "ext4";
-      options = [ "noatime" "discard" ];
+    { device = "/home/chris/home3";
+      fsType = "none";
+      options = [ "bind" ];
+    };
+
+  fileSystems."/tmp2" =
+    { device = "tmpfs";
+      fsType = "tmpfs";
     };
 
   fileSystems."/boot/efi" =
@@ -49,22 +47,10 @@
       options = [ "noatime" ];
     };
 
-  #fileSystems."/home/chris/mount/ssd2" =
-  #  { device = "/dev/disk/by-uuid/d79124de-8547-4e17-b21a-0eac2d9699d7";
-  #    fsType = "xfs";
-  #    options = [ "noatime" "discard" ];
-  #  };
-
-  fileSystems."/home/chris/mount/nvmp2" =
-    { device = "/dev/disk/by-uuid/ecacdbae-1af5-45d9-8bdb-6cc8a0e1d233";
-      fsType = "ext4";
-      options = [ "noatime" "discard" ];
-    };
-
   swapDevices =
     [ { device = "/dev/disk/by-uuid/51fbaa8f-17de-464f-83ad-d19e70430860"; }
     ];
 
-  nix.maxJobs = lib.mkDefault 4;
+  nix.maxJobs = lib.mkDefault 12;
   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
 }
