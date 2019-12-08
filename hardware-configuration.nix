@@ -31,6 +31,12 @@
       options = [ "bind" ];
     };
 
+  fileSystems."/var/lib/containers/nixbincache/var/public-nginx-cache" =
+    { device = "/home/chris/mount/raid18t/Ordered/NixpkgsCache";
+      fsType = "none";
+      options = [ "bind" ];
+    };
+
   fileSystems."/tmp2" =
     { device = "tmpfs";
       fsType = "tmpfs";

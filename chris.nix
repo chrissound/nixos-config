@@ -1,25 +1,33 @@
-# nix = {
-#   binaryCaches = [
-#     "https://cache.nixos.org/"
-#     "https://komposition.cachix.org"
-#   ];
-#   binaryCachePublicKeys = [
-#     "komposition.cachix.org-1:nzWESzP0bEENshGnqQYN8+mic6JOxw2APw/AJAXhF3Y="
-#   ];
-#   trustedUsers = [ "root" "chris" ];
-# };
-
 { config, pkgs, ... }:
 #{ config, ... }:
+
 
 let
   # xmonadChris = pkgs.callPackage ./xmonad/default.nix {};
   sodiumSierraStrawberry = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/SodiumSierraStrawberry/default.nix {};
+  moscoviumorange = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/MoscoviumOrange/default.nix {};
+  myxmonad = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/MyXmonad/default.nix {};
+  hexla = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/Hexla/default.nix {};
   unstable = import <unstable> {
     config = config.nixpkgs.config; 
   };
   myCustomPkgs = [
     sodiumSierraStrawberry
+    moscoviumorange
+    myxmonad
+    hexla
+  ];
+  programmingPkgs = with pkgs; [
+    # idea.idea-community
+    # jetbrains.phpstorm
+  ];
+  nixStuffPkgs = with pkgs; [
+
+    (import (builtins.fetchTarball "https://github.com/target/lorri/archive/rolling-release.tar.gz") {})
+    nixops
+    nix-deploy
+    nix-index
+    (unstable.haskellPackages.niv)
   ];
   devopsPkgs = with pkgs; [
     # anydesk
@@ -30,18 +38,27 @@ let
       p.libvirt
       p.random
       p.template
+      p.null
+      p.external
+      p.kubernetes
+      p.helm
       ]))
-    teamviewer
     dive
     acpi
     awscli
+    aws-iam-authenticator
     dmidecode
     docker
     docker_compose
     google-cloud-sdk
-    gitlab-runner
+    # gitlab-runner
     python37Packages.yamllint
+    python37Packages.virtualenv
+    python37Packages.virtualenvwrapper
+    vagrant
     kubectl
+    gcc
+    unstable.kops
     kubernetes-helm
     unstable.minikube
     openssl
@@ -50,38 +67,45 @@ let
     gnumake
     gitkraken
     git
-    nomad
-    unstable.consul
-    unstable.traefik
+    # nomad
+    # unstable.consul
+    # unstable.traefik
     nginx
     zoom-us
+    # mysql-workbench
+    sqlite
   ];
-
   desktopSystemPkgsNetwork = with pkgs; [
     bind
     tcptrack
     bmon
     tshark
+    tcpdump
     traceroute
     smbclient
     iana-etc
     inetutils
     nmap
+    netcat-gnu
+  ];
+  systemPkgs = with pkgs; [
+    htop
+    hdparm
+    iotop
+    mdadm
+    parted
+    gptfdisk
+    ntfs3g
+    smartmontools
+    ncdu
+    gparted
+    lsof
   ];
   desktopSystemPkgsStorage = with pkgs; [
     jmtpfs
     duplicity
-    gparted
-    gptfdisk
-    hdparm
-    iotop
-    ntfs3g
-    parted
-    smartmontools
     sysstat
     e2fsprogs
-    ncdu
-    mdadm
     borgbackup
     sshfs-fuse
   ];
@@ -89,11 +113,9 @@ let
 	  xorg.xgamma
     # (wine.override { wineBuild = "wine64"; })
     bc
-    ddccontrol
     dtrx
     gnupg
     gwenview
-    htop
     inotify-tools
     irssi
     ispell
@@ -104,6 +126,7 @@ let
     multitail
     nix-prefetch-git
     openbox
+    i3
     openvpn
     postgresql
     qt5ct
@@ -113,6 +136,7 @@ let
     xorg.xf86videodummy	
     xvfb_run
     usbutils
+    p7zip
   ] ++ desktopSystemPkgsStorage ++ desktopSystemPkgsNetwork;
   desktopEnvironmentUiPkgs = with pkgs; [
     gxmessage
@@ -123,16 +147,19 @@ let
     volumeicon
     xbindkeys
     breeze-gtk
+    breeze-icons
     xcompmgr
     compton
     tint2
+    taffybar
   ];
   desktopMediaPkgs = with pkgs; [
     kdenlive
+    kinit
     testdisk-photorec
     graphicsmagick
-    xfce4-13.thunar
-    xfce4-13.tumbler
+    xfce4-14.thunar
+    xfce4-14.tumbler
     imagemagickBig
     pinta
     gthumb
@@ -147,18 +174,21 @@ let
     simplescreenrecorder
     ffmpeg
   ];
+  editorPkgs = with pkgs; [
+    emacs
+    neovim
+  ];
   desktopPkgs = with pkgs; [
+    barrier
     v4l_utils
     libv4l
-    gnome3.evolution 
     sylpheed
     alacritty
     dolphin
-    emacs
-    neovim
     vscode
     evince
     firefox
+    brave
     gnome3.gnome_terminal
     hexchat
     konsole
@@ -168,15 +198,21 @@ let
     rofi
     scrot
     tor-browser-bundle-bin
-    thunderbird
     unstable.enpass
-    unstable.google-chrome
+    google-chrome
     transmission-gtk
     signal-desktop
-    tdesktop # telegram
     screenkey
     scantailor
+    teamviewer
   ] ++ desktopEnvironmentUiPkgs ++ desktopMediaPkgs;
+  communicationPkgs = with pkgs; [
+    discord
+    tdesktop # telegram
+    # skypeforlinux
+    thunderbird
+    gnome3.evolution 
+  ];
   musicProdPkgs = with pkgs; [
     calf
     ardour
@@ -185,14 +221,23 @@ let
     qjackctl
     libjack2
     supercollider
-    unstable.jack2
+    jack2
+    bitwig-studio
+  ];
+  dataTextPkgs = with pkgs; [
+    jq
+    jl
+    ripgrep
+    gron
   ];
   cliPkgs = with pkgs; [
+    asciinema
+    direnv
     gist
     ag
     bat
     bash
-    unstable.broot
+    broot
     # unstable.ruplacer
     exa
     fd
@@ -200,11 +245,9 @@ let
     fpp
     gitAndTools.diff-so-fancy
     global
-    jq
     pstree
     pv
     ranger
-    ripgrep
     shellcheck
     sshpass
     stdenv
@@ -215,15 +258,18 @@ let
     zip
     unzip
     pigz
+    lz4
     wget
     xclip
     xdotool
     zsh
   ];
   myHaskellPackages = with pkgs; [
+    ghc
+    stack
     cabal2nix
     cabal-install
-    haskellPackages.xmonad
+    #haskellPackages.xmonad
     haskellPackages.pretty-simple
     haskellPackages.apply-refact
     # unstable.haskellPackages.bhoogle
@@ -233,26 +279,39 @@ let
     haskellPackages.hoogle
     unstable.haskellPackages.hpack
     haskellPackages.hserv
+    haskellPackages.profiteur
     # unstable.haskellPackages.vgrep
     #haskellPackages.taffyBar
-    unstable.stack2nix
+    #stack2nix
     unstable.haskellPackages.ghcid
     unstable.haskellPackages.ghc-prof-flamegraph
     # unstable.haskellPackages.hpack-convert
     #unstable.haskellPackages.steeloverseer
-    stack
+    # stack
+    # (import (builtins.fetchTarball "https://github.com/hercules-ci/ghcide-nix/tarball/master") {}).ghcide-ghc865
+    (import (builtins.fetchTarball "https://github.com/mpickering/eventlog2html/archive/master.tar.gz") {}).eventlog2html
   ];
+  myCorePackages = with pkgs; [
+  ]
+  ++ editorPkgs
+  ++ cliPkgs
+  ++ systemPkgs
+  ++ dataTextPkgs
+  ;
 in
 {
    environment.systemPackages = with pkgs;
-      devopsPkgs
+      programmingPkgs
+   ++ devopsPkgs
+   ++ nixStuffPkgs
    ++ desktopPkgs
    ++ desktopSystemPkgs
    ++ musicProdPkgs
-   ++ cliPkgs
+   ++ communicationPkgs
    ++ myHaskellPackages
    ++ myCustomPkgs
-   ++ [nodejs lsof peek remmina arduino prometheus xvfb_run xrdp openbox libvncserver tigervnc x2goclient awesome x11vnc keepass keepassxc mysql openjdk
+   ++ myCorePackages
+   ++ [nodejs peek remmina arduino prometheus xvfb_run xrdp openbox libvncserver tigervnc x2goclient awesome x11vnc keepass keepassxc mysql openjdk
    xorg.xinit
    ];
 
