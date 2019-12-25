@@ -64,7 +64,6 @@ in
     #   #"my-nix-cache:z3o8Kf/PTzehVpMsE2KoYyf5rkU/XCR0+AfEvtKSgo8="
     ];
     trustedUsers = [ "root" "chris" ];
-    sandboxPaths = [ "/home/chris/nixsandbox" ];
   };
   # nix = {
   #   binaryCaches = [

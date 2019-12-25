@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 let
-
-  moscoviumorange = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/MoscoviumOrange/default.nix {};
+  sources = import ./nix/sources.nix;
+  moscoviumorange = sources.MoscoviumOrange;
   in
 {
   services.safeeyes.enable = true;
