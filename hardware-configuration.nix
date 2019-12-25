@@ -58,5 +58,4 @@
     ];
 
   nix.maxJobs = lib.mkDefault 12;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
 }

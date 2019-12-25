@@ -13,7 +13,7 @@ let
 
   services.nextcloud = {
     # enable = true;
-    enable = true;
+    enable = false;
     hostName = "_";
     nginx.enable = true;
     config = {
@@ -129,6 +129,17 @@ let
       };
       wantedBy = [ "default.target" ];
     };
+    echotmp = {
+      enable = true;
+      description = "echotmp";
+      serviceConfig = {
+        Type      = "simple";
+        ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p /tmp2/echotmp/";
+        ExecStart = "${pkgs.bash}/bin/bash -c \"echo 'hello' >> /tmp2/echotmp/log.txt\"";
+        OnUnitInactiveSec = "30s";
+      };
+      wantedBy = [ "default.target" ];
+    };
   };
 
   location = {
@@ -175,7 +186,7 @@ let
     # };
 
     # windowManager.default = "xmonad";
-    displayManager.sddm.enable = true;
+    displayManager.sddm.enable = false;
 
     libinput.enable = true;
     libinput.middleEmulation = true;
