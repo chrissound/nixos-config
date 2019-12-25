@@ -12,10 +12,9 @@ in
       ./chris.nix
       ./services.nix
       ./containers.nix
-      ./my-elasticsearch.nix
       ./cachix.nix
       ./nixos.nix
-      ./networking.nix
+      ./networking-pineapple.nix
       ./default-system.nix
       ./boot.nix
     ];

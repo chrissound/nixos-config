@@ -15,7 +15,7 @@ in
       ./my-elasticsearch.nix
       ./cachix.nix
       ./nixos.nix
-      ./networking.nix
+      ./networking-blueberry.nix
       ./default-system.nix
       ./boot.nix
     ];
