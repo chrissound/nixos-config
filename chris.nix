@@ -1,16 +1,22 @@
 { config, pkgs, ... }:
+
 #{ config, ... }:
 
 
 let
+  sources = import ./nix/sources.nix;
   nixpkgsMyStable = import (builtins.fetchTarball {
     url = https://github.com/NixOS/nixpkgs/archive/775fb69ed73e7cf6b7d3dd9853a60f40e8efc340.tar.gz;
     sha256 = "1w068b0ydw4c26mcjiwlzdfqcdk3rrwmfx4hxzgfhfwcz2nmh3if";
   }) {config.allowUnfree = true;};
-  sodiumSierraStrawberry = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/SodiumSierraStrawberry/default.nix {};
-  moscoviumorange = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/MoscoviumOrange/default.nix {};
-  myxmonad = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/MyXmonad/default.nix {};
-  hexla = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/Hexla/default.nix {};
+  sodiumSierraStrawberry = sources.SodiumSierraStrawberry;
+  moscoviumorange = sources.MoscoviumOrange;
+  hexla = sources.Hexla;
+  myxmonad = sources.XMonadLayouts;
+  # sodiumSierraStrawberry = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/SodiumSierraStrawberry/default.nix {};
+  # moscoviumorange = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/MoscoviumOrange/default.nix {};
+  # myxmonad = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/MyXmonad/default.nix {};
+  # hexla = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/Hexla/default.nix {};
   unstable = import <unstable> {
     config = config.nixpkgs.config;
   };

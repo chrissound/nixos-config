@@ -1,0 +1,74 @@
+{
+    "Hexla": {
+        "branch": "master",
+        "description": "`ls -la` implemented in Haskell",
+        "homepage": null,
+        "owner": "chrissound",
+        "repo": "Hexla",
+        "rev": "986330f386b97ede8e3795640e475bce1f93574c",
+        "sha256": "0vvynd3l6j4xfa1c91jpi7an49k4f82f0yh7j660pfg6gyivckh8",
+        "type": "tarball",
+        "url": "https://github.com/chrissound/Hexla/archive/986330f386b97ede8e3795640e475bce1f93574c.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "MoscoviumOrange": {
+        "branch": "master",
+        "description": "A modern revolutionary more feature-full command line history logger/viewer. It logs the command, path and timestamp.",
+        "homepage": "",
+        "owner": "chrissound",
+        "repo": "MoscoviumOrange",
+        "rev": "d7fbdcb9f3d9a460f4dac2f28e09cb7b15813b1f",
+        "sha256": "1qnnvp3v560g25d34gzvw1rmhjsp74z69gzas0dcvc4gnsrzh8m7",
+        "type": "tarball",
+        "url": "https://github.com/chrissound/MoscoviumOrange/archive/d7fbdcb9f3d9a460f4dac2f28e09cb7b15813b1f.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "SodiumSierraStrawberry": {
+        "branch": "master",
+        "description": "Intelligent path truncation. Long/Path/Example -> Lo../Pa../Example",
+        "homepage": "",
+        "owner": "chrissound",
+        "repo": "SodiumSierraStrawberry",
+        "rev": "b1713ef7d30affbe3621c57f650a0bca64bc2415",
+        "sha256": "1yx83kka1cny0hb9xp3r5hrgvljm0bmksphjadrv8ghmqzny78rw",
+        "type": "tarball",
+        "url": "https://github.com/chrissound/SodiumSierraStrawberry/archive/b1713ef7d30affbe3621c57f650a0bca64bc2415.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "XMonadLayouts": {
+        "branch": "master",
+        "description": null,
+        "homepage": null,
+        "owner": "chrissound",
+        "repo": "XMonadLayouts",
+        "rev": "07df7bb5a9359f4b549a92af66bc5efde6f804f8",
+        "sha256": "08s5sj8hh8hvvcq2ib99xp3711wj2d8444ax1s64y6z68pvsy97w",
+        "type": "tarball",
+        "url": "https://github.com/chrissound/XMonadLayouts/archive/07df7bb5a9359f4b549a92af66bc5efde6f804f8.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "niv": {
+        "branch": "master",
+        "description": "Easy dependency management for Nix projects",
+        "homepage": "https://github.com/nmattia/niv",
+        "owner": "nmattia",
+        "repo": "niv",
+        "rev": "abd0de3269fd712955d27b70e32921841c7b8bb7",
+        "sha256": "0b38n1ad00s1qqyw3ml3pypf8i1pw4aqw0bpa02qq9iv7sp3x0gz",
+        "type": "tarball",
+        "url": "https://github.com/nmattia/niv/archive/abd0de3269fd712955d27b70e32921841c7b8bb7.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs": {
+        "branch": "nixos-19.09",
+        "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
+        "homepage": "https://github.com/NixOS/nixpkgs",
+        "owner": "NixOS",
+        "repo": "nixpkgs-channels",
+        "rev": "d85e435b7bded2596d7b201bcd938c94d8a921c1",
+        "sha256": "1msjm4kx1z73v444i1iybvmc7z0kfkbn9nzr21rn5yc4ql1jwf99",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs-channels/archive/d85e435b7bded2596d7b201bcd938c94d8a921c1.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}
