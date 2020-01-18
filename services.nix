@@ -2,7 +2,7 @@
 
 let
   sources = import ./nix/sources.nix;
-  moscoviumorange = sources.MoscoviumOrange;
+  moscoviumorange = import sources.MoscoviumOrange {};
   in
 {
   services.safeeyes.enable = true;

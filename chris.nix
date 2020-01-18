@@ -5,14 +5,19 @@
 
 let
   sources = import ./nix/sources.nix;
+  niv = import sources.niv {};
   nixpkgsMyStable = import (builtins.fetchTarball {
     url = https://github.com/NixOS/nixpkgs/archive/775fb69ed73e7cf6b7d3dd9853a60f40e8efc340.tar.gz;
     sha256 = "1w068b0ydw4c26mcjiwlzdfqcdk3rrwmfx4hxzgfhfwcz2nmh3if";
   }) {config.allowUnfree = true;};
-  sodiumSierraStrawberry = sources.SodiumSierraStrawberry;
-  moscoviumorange = sources.MoscoviumOrange;
-  hexla = sources.Hexla;
-  myxmonad = sources.XMonadLayouts;
+  nixpkgs1903 = import (builtins.fetchTarball {
+    url = https://github.com/NixOS/nixpkgs/archive/f52505fac8c82716872a616c501ad9eff188f97f.tar.gz;
+  }) {config.allowUnfree = true;};
+  sodiumSierraStrawberry = import sources.SodiumSierraStrawberry {};
+  moscoviumorange = import sources.MoscoviumOrange {};
+  hexla = import sources.Hexla {};
+  myxmonad = import sources.XMonadLayouts {}; # 
+  # myxmonad = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/MyXmonad/lib/default.nix {};
   # sodiumSierraStrawberry = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/SodiumSierraStrawberry/default.nix {};
   # moscoviumorange = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/MoscoviumOrange/default.nix {};
   # myxmonad = pkgs.callPackage /home/chris/fromLaptopt/usbflash/Haskell/MyXmonad/default.nix {};
@@ -38,6 +43,13 @@ let
     nix-deploy
     nix-index
     (unstable.haskellPackages.niv)
+    cachix
+  ];
+  devopsK8sPkgs = with pkgs; [
+    kubernetes-helm
+    unstable.kops
+    kubectl
+    unstable.minikube
   ];
   devopsPkgs = with pkgs; [
     # anydesk
@@ -66,11 +78,7 @@ let
     python37Packages.virtualenv
     python37Packages.virtualenvwrapper
     vagrant
-    kubectl
     gcc
-    unstable.kops
-    kubernetes-helm
-    unstable.minikube
     openssl
     virtmanager
     gnome3.dconf
@@ -84,7 +92,7 @@ let
     zoom-us
     # mysql-workbench
     sqlite
-  ];
+  ] ++ devopsK8sPkgs;
   desktopSystemPkgsNetwork = with pkgs; [
     bind
     tcptrack
@@ -164,7 +172,8 @@ let
     taffybar
   ];
   desktopMediaPkgs = with pkgs; [
-    kdenlive
+    (import (builtins.fetchTarball "https://github.com/owickstrom/komposition/archive/master.tar.gz") {}).komposition
+    unstable.kdenlive
     kinit
     testdisk-photorec
     graphicsmagick
@@ -279,7 +288,6 @@ let
     stack
     cabal2nix
     cabal-install
-    #haskellPackages.xmonad
     haskellPackages.pretty-simple
     haskellPackages.apply-refact
     # unstable.haskellPackages.bhoogle
@@ -298,7 +306,7 @@ let
     # unstable.haskellPackages.hpack-convert
     #unstable.haskellPackages.steeloverseer
     # stack
-    # (import (builtins.fetchTarball "https://github.com/hercules-ci/ghcide-nix/tarball/master") {}).ghcide-ghc865
+    (import (builtins.fetchTarball "https://github.com/hercules-ci/ghcide-nix/tarball/master") {}).ghcide-ghc865
     (import (builtins.fetchTarball "https://github.com/mpickering/eventlog2html/archive/master.tar.gz") {}).eventlog2html
   ];
   myCorePackages = with pkgs; [
